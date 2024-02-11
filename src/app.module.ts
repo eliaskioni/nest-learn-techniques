@@ -10,6 +10,7 @@ import { Customer, CustomerSchema } from './mongo/customer/customer';
 import { CacheController } from './cache/cache.controller';
 import { PersonService } from './cache/cache.service';
 import { CronService } from './cron/cron.service';
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,7 +34,8 @@ import { CronService } from './cron/cron.service';
         name: Customer.name,
         schema: CustomerSchema
       },
-    ])
+    ]),
+    ScheduleModule.forRoot()
   ],
   controllers: [EnvsController, ProductController, CacheController],
   providers: [ProductService, PersonService, CronService],
