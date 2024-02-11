@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Customer, CustomerSchema } from './mongo/customer/customer';
 import { CacheController } from './cache/cache.controller';
 import { PersonService } from './cache/cache.service';
+import { CronService } from './cron/cron.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -35,6 +36,6 @@ import { PersonService } from './cache/cache.service';
     ])
   ],
   controllers: [EnvsController, ProductController, CacheController],
-  providers: [ProductService, PersonService],
+  providers: [ProductService, PersonService, CronService],
 })
 export class AppModule {}
