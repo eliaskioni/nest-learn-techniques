@@ -13,6 +13,8 @@ import { CronService } from './cron/cron.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bull';
 import { BullService } from './bull/bull.service';
+import { KannelService } from './http/http.service';
+import { HttpModule } from '@nestjs/axios';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -52,9 +54,10 @@ import { BullService } from './bull/bull.service';
           duration: 1 * 1000
         }
       },
-    )
+    ),
+    HttpModule
   ],
   controllers: [EnvsController, ProductController, CacheController],
-  providers: [ProductService, PersonService, CronService, BullService],
+  providers: [ProductService, PersonService, CronService, BullService, KannelService],
 })
 export class AppModule {}
