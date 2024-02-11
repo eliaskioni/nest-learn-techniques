@@ -11,6 +11,8 @@ import { CacheController } from './cache/cache.controller';
 import { PersonService } from './cache/cache.service';
 import { CronService } from './cron/cron.service';
 import { ScheduleModule } from '@nestjs/schedule';
+import { BullModule } from '@nestjs/bull';
+import { BullService } from './bull/bull.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -35,9 +37,24 @@ import { ScheduleModule } from '@nestjs/schedule';
         schema: CustomerSchema
       },
     ]),
-    ScheduleModule.forRoot()
+    ScheduleModule.forRoot(),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379
+      }
+    }),
+    BullModule.registerQueue(
+      {
+        name: 'audio',
+        limiter: {
+          max: 1,
+          duration: 1 * 1000
+        }
+      },
+    )
   ],
   controllers: [EnvsController, ProductController, CacheController],
-  providers: [ProductService, PersonService, CronService],
+  providers: [ProductService, PersonService, CronService, BullService],
 })
 export class AppModule {}
