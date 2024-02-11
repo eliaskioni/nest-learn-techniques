@@ -15,6 +15,8 @@ import { BullModule } from '@nestjs/bull';
 import { BullService } from './bull/bull.service';
 import { KannelService } from './http/http.service';
 import { HttpModule } from '@nestjs/axios';
+import { RabbitmqService } from './rabbitmq/rabbitmq.service';
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -55,9 +57,17 @@ import { HttpModule } from '@nestjs/axios';
         }
       },
     ),
-    HttpModule
+    HttpModule,
+    RabbitMQModule.forRoot(RabbitMQModule, {
+      exchanges: [{
+        name: 'exchange',
+        type: 'topic'
+      }],
+      uri: 'localhost',
+      enableControllerDiscovery: true
+    })
   ],
   controllers: [EnvsController, ProductController, CacheController],
-  providers: [ProductService, PersonService, CronService, BullService, KannelService],
+  providers: [ProductService, PersonService, CronService, BullService, KannelService, RabbitmqService],
 })
 export class AppModule {}
