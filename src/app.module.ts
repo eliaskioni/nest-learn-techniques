@@ -7,6 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductService } from './database/product.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Customer, CustomerSchema } from './mongo/customer/customer';
+import { CacheController } from './cache/cache.controller';
+import { PersonService } from './cache/cache.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,7 +34,7 @@ import { Customer, CustomerSchema } from './mongo/customer/customer';
       },
     ])
   ],
-  controllers: [EnvsController, ProductController],
-  providers: [ProductService],
+  controllers: [EnvsController, ProductController, CacheController],
+  providers: [ProductService, PersonService],
 })
 export class AppModule {}
