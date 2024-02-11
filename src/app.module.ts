@@ -5,6 +5,8 @@ import { ProductController } from './database/product.controller';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductService } from './database/product.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Customer, CustomerSchema } from './mongo/customer/customer';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,7 +21,16 @@ import { ProductService } from './database/product.service';
       database: 'learn',
       synchronize: true,
       entities: []
-    })
+    }),
+    MongooseModule.forRoot(
+      'mongodb://localhost/nest'
+    ),
+    MongooseModule.forFeature([
+      {
+        name: Customer.name,
+        schema: CustomerSchema
+      },
+    ])
   ],
   controllers: [EnvsController, ProductController],
   providers: [ProductService],
